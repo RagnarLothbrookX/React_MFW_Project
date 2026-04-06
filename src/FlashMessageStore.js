@@ -1,31 +1,32 @@
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom} from 'jotai';
+import { useEffect } from 'react';
 
-export const flashMessageAtom = atom({
+const flashMessageAtom = atom({
     message: '',
-    type: 'info',
+    type: 'info'  // info, danger, success
 });
 
+
 export const useFlashMessage = () => {
+
     const [flashMessage, setFlashMessage] = useAtom(flashMessageAtom);
 
-    const showMessage = (message, type = 'info') => {
-        setFlashMessage({ message, type });
+    const showMessage = (message, type="info") => {
+       setFlashMessage({
+            "message": message,
+            "type": type
+        })
+
+        setTimeout(clearMessage, 3000);
     };
 
     const clearMessage = () => {
-        setFlashMessage({ message: '', type: 'info' });
-    };
+        setFlashMessage({
+            "message": "",
+            "info": ""
+        })
+    }
 
-    const getMessage = () => {
-        const message = flashMessage;
-        // setFlashMessage({ message: '', type: 'info' });
-        return message;
-    };
+    return {showMessage, clearMessage, flashMessage}
 
-    return {
-        getMessage,
-        showMessage,
-        clearMessage
-
-    };
 }

@@ -1,39 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ProductCard from './ProductCard';
+import axios from "axios";
+import { useState, useEffect } from "react";
+import ProductCard from "./ProductCard";
+import { useCart } from "./CartStore";
+import { useFlashMessage } from "./FlashMessageStore";
+import { useLocation } from "wouter";
 
-function ProductsPage() {
-  const [products, setProducts] = useState([]);
+export default function ProductPage() {
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('/products.json');
-        setProducts(response.data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
+    const [products, setProducts] = useState([]);
+    const {addProductToCart} = useCart();
+    const {showMessage} = useFlashMessage();
+    const [, setLocation] = useLocation();
 
-    fetchProducts();
-  }, []);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const response = await axios.get(import.meta.env.VITE_API_URL + "/api/products");
+            setProducts(response.data);
 
-  return (
-    <div className="container my-5">
-      <h1 className="text-center mb-4">Our Products</h1>
-      <div className="row">
-        {products.map(product => (
-          <div key={product.id} className="col-md-4 mb-4">
-            <ProductCard
-              imageUrl={product.image}
-              productName={product.name}
-              price={product.price.toFixed(2)}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+        }
+        fetchProducts();
+    }, [])
+
+    return (
+        <div className="container my-5">
+            <h3>Product page</h3>
+            <div className="row">
+                {
+                    products.map(p => (
+                        <div className="col-md-4 mb-4" key={p.id}>
+                            <ProductCard
+                                productName={p.name}
+                                imageUrl={p.imageUrl}
+                                price={p.price}
+                                handleAddToCart={()=>{
+                                    addProductToCart(p);
+                                    showMessage("Product has been added to cart", "success");
+                                    setLocation("/cart")
+                                }}
+                            />
+                        </div>)
+                        
+                    )
+                }
+
+
+            </div>
+        </div>
+    )
 }
-
-export default ProductsPage;
