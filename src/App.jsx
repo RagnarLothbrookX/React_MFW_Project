@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import Navbar from './Navbar';
 import HomePage from './HomePage';
 import { Route, Switch } from 'wouter';
-import ProductsPage from './ProductsPage';
+import ProductPage from './ProductPage';
 import RegisterPage from './RegisterPage';
+import UserLogin from './UserLogin';
 import ShoppingCart from './ShoppingCart';
 import { useFlashMessage } from './FlashMessageStore';
 
@@ -33,9 +34,11 @@ function App() {
       )}
       <Switch>
         <Route path="/" component={HomePage} />
-        <Route path="/products" component={ProductsPage} />
+        <Route path="/products" component={ProductPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/cart" component={ShoppingCart} />
+        <Route path="/login" component={UserLogin} />
+
       </Switch>
 
       <footer className="bg-dark text-white text-center py-3">
