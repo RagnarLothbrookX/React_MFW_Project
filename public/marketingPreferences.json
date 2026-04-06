@@ -14,5 +14,9 @@
   {
     "id": 4,
     "name": "Product Updates"
+  },
+  {
+    "id": 5,
+    "name": "AI recommendations"
   }
 ]
