@@ -2,14 +2,13 @@ import { Route, Switch} from 'wouter';
 
 import "./App.css";
 import HomePage from "./HomePage";
-import RegisterPage from './RegisterPage';
+// import RegisterPage from './RegisterPage';
 import ProductPage from './ProductPage';
-import LoginPage from './LoginPage';
-import ShoppingCart from './ShoppingCart';
+// import LoginPage from './LoginPage';
 
 import Navbar from "./Navbar";
 import FlashMessage from './FlashMessage';
-import Profile from './Profile';
+// import Profile from './Profile';
 
 
 export default function App() {
