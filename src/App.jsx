@@ -1,28 +1,41 @@
-import { Route, Switch} from 'wouter';
+import React, { useEffect } from 'react';
+import Navbar from './Navbar';
+import HomePage from './HomePage';
+import { Route, Switch } from 'wouter';
+import ProductsPage from './ProductsPage';
+import RegisterPage from './RegisterPage';
+import ShoppingCart from './ShoppingCart';
+import { useFlashMessage } from './FlashMessageStore';
 
-import "./App.css";
-import HomePage from "./HomePage";
-// import RegisterPage from './RegisterPage';
-import ProductPage from './ProductPage';
-// import LoginPage from './LoginPage';
+function App() {
+  const { getMessage, clearMessage  } = useFlashMessage();
+  const flashMessage = getMessage();
 
-import Navbar from "./Navbar";
-import FlashMessage from './FlashMessage';
-// import Profile from './Profile';
+  useEffect(() => {
 
+    const timer = setTimeout(() => {
+      clearMessage();
+    }
+    , 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }
+  , [flashMessage]);
 
-export default function App() {
   return (
     <>
-      <Navbar/>
-      <FlashMessage/>
+      <Navbar />
+      {flashMessage.message && (
+        <div className={`alert alert-${flashMessage.type} text-center flash-alert`} role="alert">
+          {flashMessage.message}
+        </div>
+      )}
       <Switch>
-        <Route path="/" component={HomePage}/>
-        <Route path="/register" component={RegisterPage}/>
-        <Route path="/login" component={LoginPage}/>
-        <Route path="/products" component={ProductPage}/>
-        <Route path="/cart" component={ShoppingCart}/>
-        <Route path="/profile" component={Profile}/>
+        <Route path="/" component={HomePage} />
+        <Route path="/products" component={ProductsPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/cart" component={ShoppingCart} />
       </Switch>
 
       <footer className="bg-dark text-white text-center py-3">
@@ -31,5 +44,7 @@ export default function App() {
         </div>
       </footer>
     </>
-  )
+  );
 }
+
+export default App;
